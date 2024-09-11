@@ -1,20 +1,29 @@
 import React from 'react'
-
 import './App.css'
 import { Input } from './component/ui/input'
 import { Button } from './component/ui/button'
+import axios from 'axios'
 
 function App() {
   const [email, setEmail] = React.useState<string>('')
   const [password, setPassword] = React.useState<string>('')
 
-  function handleLogin(event: React.FormEvent) {
-    event.preventDefault()
-    console.log(email, password) 
-    setEmail('')
-    setPassword('')
+  async function handleLogin(event: React.FormEvent) {
+    event.preventDefault();
+    console.log(email, password);
 
+    try {
+      const response = await axios.post('http://localhost:4000/sessions', {
+        email,
+        password,
+      });
+
+      console.log('Login realizado com sucesso:', response.data);
+    } catch (error) {
+      console.error('Erro ao fazer login:', error);
+    }
   }
+
   return (
     <div className="flex justify-center items-center min-h-[70vh]">
       <form
